@@ -2,8 +2,8 @@
     <div class="container" >
       
       <a-row>
-        <a-col :span="6" v-for="contact in contacts"> 
-          <ContactCard :contactInfo="contact"></ContactCard> 
+        <a-col :span="6" v-for="contact in contactsList" :key="contact.id" > 
+          <ContactCard :contactInfo="contact" @updateContacts="getContacts"></ContactCard> 
         </a-col>
       </a-row>
       <a-tooltip placement="left">
@@ -25,29 +25,34 @@ import ContactService from '../services/contactService';
 export default {
   data(){
     return{
-      contacts:[]
+      contactsList:[]
       
       
     }
   },
   mounted: function(){
-    const contactService = new ContactService();
-
-    contactService.getAllContacts()
-    .then(response => {
-        console.log(response.data);
-        this.contacts = response.data;
-      }).catch( error => {
-         console.log('An error ocurred ====' ,error);
-      });
+    this.getContacts();
   },
   name: 'home',
   components: {
     ContactCard
   },
   methods: {
-    deleteContact(contactId){
-      this.contacts
+    getContacts(){
+      const contactService = new ContactService();
+
+      contactService.getAllContacts()
+      .then(response => {
+        console.log(response.data);
+        this.contactsList = response.data;
+        
+      })
+      .catch( error => {
+         console.log('An error ocurred ====' ,error);
+      });
+    },
+    hello(){
+      console.log('yallooooo');
     }
   }
 };

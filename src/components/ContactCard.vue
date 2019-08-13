@@ -50,7 +50,10 @@ export default {
     deleteContact(){
       const contactService = new ContactService();
       contactService.deleteContact(this.contactInfo.id)
-      .then( res => console.log(res))
+      .then( res => {
+        console.log(res);
+        this.$emit('updateContacts');
+      })
       .catch( error => console.log(error));
       this.showModal  = false
     }
